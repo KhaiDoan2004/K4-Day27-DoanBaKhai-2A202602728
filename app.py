@@ -311,8 +311,12 @@ if submitted and pr_url:
     with st.spinner("Fetching PR + asking the LLM..."):
         try:
             apply_result(asyncio.run(run_graph(pr_url, st.session_state.thread_id)))
+            ok = True
         except Exception as e:
             st.error(f"Review failed: {e}")
+            ok = False
+    if ok:
+        st.rerun()  # redraw so the sidebar includes (and marks) the new session
 
 # Render the current interrupt card, if any
 payload = st.session_state.interrupt_payload
