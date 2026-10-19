@@ -278,8 +278,7 @@ async def node_commit(state):
         risk_level=risk_level_for(a.confidence),
         reviewer_id=reviewer_id(),
         decision="approve" if escalated else state.get("human_choice") or "reject",
-        reason=f"{action} ({'after escalation' if escalated else 'human_approval'}, "
-               f"{len(a.comments)} comment(s))",
+        reason=f"{action} (via {state.get('decision')}, {len(a.comments)} comment(s))",
         execution_time_ms=int((time.monotonic() - t0) * 1000),
     ))
     return {"final_action": action}
